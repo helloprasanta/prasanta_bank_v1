@@ -28,19 +28,20 @@ public class Branch implements Serializable {
 	@Column(name="BR_ADDRESS")
 	private String brAddress;
 
-	@Column(name="BR_NAME")
+	@Column(name = "BR_NAME")
 	private String brName;
 
-	@Column(name="BR_NO")
+	@Column(name = "BR_NO")
 	private BigInteger brNo;
 
-	@Column(name="GEN_DATE")
+	@Column(name = "GEN_DATE")
 	private Timestamp genDate;
 
+	@Column(name = "STATUS")
 	private String status;
 
 	//bi-directional many-to-one association to Manager
-	@OneToMany(mappedBy="branch")
+	@OneToMany(mappedBy = "branch")
 	private List<Manager> managers;
 
 	public Branch() {

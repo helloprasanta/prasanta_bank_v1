@@ -1,31 +1,18 @@
 package com.pk.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pk.model.Manager;
-import com.pk.model.Transfer;
-import com.pk.repository.AccountRepository;
 import com.pk.repository.ManagerRepository;
-import com.pk.service.business.AccountService;
 import com.pk.service.business.ManagerService;
+import com.pk.service.json.ManagerJson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -38,6 +25,9 @@ public class RestManagerController {
 
     @Autowired
     private ManagerRepository managerRepository;
+
+    @Autowired
+    private ManagerJson managerJson;
 
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -54,8 +44,9 @@ public class RestManagerController {
 
     @Transactional(readOnly = true)
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Manager> getAllManagers () {
-        return managerRepository.findAll();
+    public String getAllManagers() throws JsonProcessingException {
+//        return managerRepository.findAll();
+        return managerJson.filterLoginManagerInfo(managerRepository.findAll());
 
     }
 
